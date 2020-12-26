@@ -5,6 +5,7 @@ import { HttpClient } from "@angular/common/http";
   providedIn: "root",
 })
 export class HttpService {
+  markerComponentData: any = [];
   constructor(private http: HttpClient) {}
   ROOT_URL = "http://localhost:3000";
 

@@ -11,9 +11,10 @@ import { AppRoutingModule } from "./app-routing.module";
 
 import { NativeGeocoder } from "@ionic-native/native-geocoder/ngx";
 import { HttpClientModule } from "@angular/common/http";
+import { MarkerPopComponent } from "./component/marker-pop/marker-pop.component";
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, MarkerPopComponent],
   entryComponents: [],
   imports: [
     BrowserModule,

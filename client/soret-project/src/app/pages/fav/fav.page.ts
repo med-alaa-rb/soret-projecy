@@ -6,6 +6,8 @@ import {
   NativeGeocoderOptions,
 } from "@ionic-native/native-geocoder/ngx";
 import { HttpService } from "../../http.service";
+import { MarkerPopComponent } from "../../component/marker-pop/marker-pop.component";
+import { PopoverController } from "@ionic/angular";
 
 @Component({
   selector: "app-fav",
@@ -23,7 +25,8 @@ export class FavPage {
   constructor(
     private geocoder: NativeGeocoder,
     private router: Router,
-    private _http: HttpService
+    private _http: HttpService,
+    public popoverController: PopoverController
   ) {}
 
   async ionViewDidEnter() {
@@ -81,9 +84,14 @@ export class FavPage {
       this.addStops(arr, i++);
     }
   }
-  markerClick(id) {
-    this._http.filterStops_times({id : id}).subscribe((res) => {
-      console.log(res);
+  async markerClick(id) {
+    this._http.filterStops_times({ id: id }).subscribe((res) => {
+      this._http.markerComponentData = res;
     });
+    const popover = await this.popoverController.create({
+      component: MarkerPopComponent,
+      translucent: true,
+    });
+    return await popover.present();
   }
 }

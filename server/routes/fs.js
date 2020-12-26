@@ -1,4 +1,5 @@
 var fsRouter = require("express").Router();
+const date = require("date-and-time");
 const fs = require("fs");
 let shapes = [];
 let stops = [];
@@ -52,8 +53,9 @@ fsRouter.get("/data/2020/stops", (req, res) => {
   });
 });
 
-fsRouter.get("/data/2020/stop_times_all_file", (req, res) => {
+fsRouter.post("/data/2020/stop_times", (req, res) => {
   stops_time = [];
+  var info = req.body.id;
   fs.readFile("../2020/stop_times.txt", (error, data) => {
     if (error) {
       throw error;
@@ -72,17 +74,15 @@ fsRouter.get("/data/2020/stop_times_all_file", (req, res) => {
       }
       stops_time.push(obj);
     }
-    console.log(stops_time.length);
-    res.send(stops_time);
+    var filtred = stops_time.filter((el) => el.stop_id == info);
+    let getNextTimeFromArr = (str) => typeof str == "string" ? parseFloat(str.slice(0, 5).replace(":", "")) : str
+    const now = getNextTimeFromArr(new Date().toLocaleTimeString());
+    let newFiltred = filtred.filter(
+      (el) => 1200 < getNextTimeFromArr(el.arrival_time) 
+    );
+    console.log(filtred.length, newFiltred.length);
+    res.send(newFiltred);
   });
-});
-
-fsRouter.post("/data/2020/stop_times", (req, res) => {
-  console.log(stops_time);
-  var info = req.body.id;
-  var filtred = stops_time.filter((el) => el.stop_id !== info);
-  console.log(filtred);
-  res.send(filtred);
 });
 
 module.exports = { fsRouter };

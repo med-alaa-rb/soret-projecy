@@ -1,0 +1,14 @@
+<ion-list-header>
+  {{ this._http.markerComponentData[0].stop_headsign }}
+  next stop times!!!
+</ion-list-header>
+<ion-content>
+  <div *ngFor="let item of this._http.markerComponentData">
+    <ion-item>
+      <p>🚩</p>
+      <ion-badge color="warning">
+        {{ item.arrival_time }}
+      </ion-badge>
+    </ion-item>
+  </div></ion-content
+>
