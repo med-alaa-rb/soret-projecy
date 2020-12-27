@@ -32,30 +32,34 @@ export class FavPage {
   async ionViewDidEnter() {
     await this.loadMap();
     this._http.getStops().subscribe((res) => {
-      this.addStops(res, 0);
+     res ? this.addStops(res, 0) : res
     });
   }
 
   loadMap() {
-    this.myMap = new L.Map("mapId1");
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution:
-        'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-    }).addTo(this.myMap);
-    this.myMap
-      .locate({ setView: true, maxZoom: 16 })
-      .on("locationfound", (e: any) => {
-        this.newMarker = L.marker([e.latitude, e.longitude], {
-          draggable: true,
-        }).addTo(this.myMap);
-        this.myMap.setView([e.latitude, e.longitude], 13);
-        this.newMarker.bindPopup("You are located here!").openPopup();
-        // this.getAddress(e.latitude, e.longitude);
-        // this.newMarker.on("dragend", () => {
-        //   const position = this.newMarker.getLatLng();
-        //    this.getAddress(position.lat, position.lng);
-        // });
-      });
+    if (this.myMap) {
+      this.myMap ;
+    } else {
+      this.myMap = new L.Map("mapId1");
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+      }).addTo(this.myMap);
+      this.myMap
+        .locate({ setView: true, maxZoom: 16 })
+        .on("locationfound", (e: any) => {
+          this.newMarker = L.marker([e.latitude, e.longitude], {
+            draggable: true,
+          }).addTo(this.myMap);
+          this.myMap.setView([e.latitude, e.longitude], 13);
+          this.newMarker.bindPopup("You are located here!").openPopup();
+          // this.getAddress(e.latitude, e.longitude);
+          // this.newMarker.on("dragend", () => {
+          //   const position = this.newMarker.getLatLng();
+          //    this.getAddress(position.lat, position.lng);
+          // });
+        });
+    }
   }
 
   //The function below is added

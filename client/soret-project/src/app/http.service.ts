@@ -5,13 +5,16 @@ import { HttpClient } from "@angular/common/http";
   providedIn: "root",
 })
 export class HttpService {
+  shapeId: any;
+
   markerComponentData: any = [];
+
   constructor(private http: HttpClient) {}
   ROOT_URL = "http://localhost:3000";
 
   //get shapes file
-  getShapes() {
-    return this.http.get(this.ROOT_URL + "/data/2020/shapes");
+  getShapes(obj) {
+    return this.http.post(this.ROOT_URL + "/data/2020/shapes", obj);
   }
 
   getStops() {

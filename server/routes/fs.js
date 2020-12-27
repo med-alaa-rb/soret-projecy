@@ -5,7 +5,9 @@ let shapes = [];
 let stops = [];
 let stops_time = [];
 
-fsRouter.get("/data/2020/shapes", (req, res) => {
+fsRouter.post("/data/2020/shapes", (req, res) => {
+  console.log(req.body.id);
+  var filtred = [];
   shapes = [];
   fs.readFile("../2020/shapes.txt", (error, data) => {
     if (error) {
@@ -25,7 +27,22 @@ fsRouter.get("/data/2020/shapes", (req, res) => {
       }
       shapes.push(obj);
     }
-    res.send(shapes);
+    // res.send(shapes);
+    var myObj = {};
+    var shp = [];
+    for (var i = 0; i < shapes.length - 1; i++) {
+      var id = shapes[i].shape_id;
+      if (shp.includes(id) === false) {
+        shp.push(id);
+        myObj[shapes[i].shape_id] = Array(0);
+      }
+    }
+    for (var i = 0; i < shp.length; i++) {
+      myObj[shp[i]] = shapes.filter((el) => el.shape_id == shp[i]);
+    }
+
+    console.log(myObj);
+    res.send(myObj[req.body.id]);
   });
 });
 

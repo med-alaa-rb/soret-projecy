@@ -1,38 +1,61 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MbscFormOptions } from '@mobiscroll/angular';
-
+import { Component } from "@angular/core";
+import { Router } from "@angular/router";
+import * as L from "leaflet";
+import { NativeGeocoder } from "@ionic-native/native-geocoder/ngx";
+import { HttpService } from "../../http.service";
 
 @Component({
-  selector: 'app-plans',
-  templateUrl: './plans.page.html',
-  styleUrls: ['./plans.page.scss'],
+  selector: "app-plans",
+  templateUrl: "./plans.page.html",
+  styleUrls: ["./plans.page.scss"],
 })
-export class PlansPage implements OnInit {
+export class PlansPage {
+  layerName: any;
+  plansMap: any;
+  newMarker: any;
 
-  constructor() { }
+  constructor(
+    public geocoder: NativeGeocoder,
+    public router: Router,
+    public _http: HttpService
+  ) {}
 
-  ngOnInit() {
+  async ionViewDidEnter() {
+    await this.loadMap();
+    console.log(this.plansMap);
+    console.log(this._http.shapeId);
+    var obj = { id: this._http.shapeId };
+    await this._http.getShapes(obj).subscribe((res) => {
+      res ? this.addStops(res, 0) : this.router.navigateByUrl("fav");
+      console.log(res);
+    });
   }
 
-  @ViewChild('run1')
-  r1: any;
-  @ViewChild('run2')
-  r2: any;
-  @ViewChild('run3')
-  r3: any;
-
-  formSettings: MbscFormOptions = {
-      theme: 'material',
-      themeVariant: 'dark'
-  };
-
-  closeAll() {
-      this.r1.instance.hide();
-      this.r2.instance.hide();
-      this.r3.instance.hide();
+  async loadMap() {
+    if (this.plansMap) {
+      await this.plansMap.remove();
+      this.loadMap();
+    } else {
+      this.plansMap = await new L.Map("mapId2").setView([17.385, 78.4867], 13);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+      }).addTo(this.plansMap);
+    }
   }
 
- 
+  async addStops(arr, i) {
+    this.layerName = await L.marker(
+      [arr[i].shape_pt_lat, arr[i].shape_pt_lon],
+      {
+        draggable: false,
+      }
+    )
+    .addTo(this.plansMap);
+    if (!arr[i++].shape_pt_lat) {
+      return;
+    } else {
+      this.addStops(arr, i++);
+    }
+  }
 }
-
-

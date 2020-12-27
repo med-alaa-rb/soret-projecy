@@ -22,29 +22,32 @@
 
 <mbsc-card collapsible #run1="mobiscroll" *ngFor="let item of data">
   <mbsc-card-header class="mbsc-card-header">
-    <div>
+    <div (click)="showTrip(item.trip_id)">
       <mbsc-card-subtitle class="mbsc-bold mbsc-txt-s"
         >date!!!!</mbsc-card-subtitle
       >
       <div class="mbsc-bold">Day!!!!!!</div>
       <div class="mbsc-grid mbsc-margin mbsc-txt-muted mbsc-bold mbsc-txt-s">
         <div class="mbsc-row mbsc-no-padding">
-          <div class="mbsc-col">5km</div>
-          <div class="mbsc-col">5'44"/km</div>
-          <div class="mbsc-col">30:45</div>
+          <div class="mbsc-col">
+            <ion-badge color="warning"> 🚩 {{ item.arrival_time }} </ion-badge>
+          </div>
+          <div class="mbsc-col">
+            <div></div>
+          </div>
         </div>
       </div>
     </div>
   </mbsc-card-header>
   <mbsc-card-content class="mbsc-no-padding">
     <div class="mbsc-btn-group-block">
-      <div>
-        <p>🚩</p>
-        <ion-badge color="warning">
-          {{ item.arrival_time }}
-        </ion-badge>
+      <div class="mbsc-col">
+        {{ direction }}
       </div>
-      <button class="mbsc-btn-primary" (click)="showTrip(item.trip_id)">
+      <div>
+        <ion-badge color="primary">{{ trip }} </ion-badge>
+      </div>
+      <button (click)="showAlltrip(shape)" class="mbsc-btn-primary">
         View trip details
       </button>
     </div>

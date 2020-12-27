@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { Router, NavigationExtras } from "@angular/router";
+import { Router } from "@angular/router";
 import * as L from "leaflet";
 import {
   NativeGeocoder,
@@ -28,7 +28,7 @@ export class PickupLocationPage {
 
   async ionViewDidEnter() {
     await this.loadMap();
-    this._http.getShapes().subscribe((res) => {
+    this._http.getShapes({}).subscribe((res) => {
       this.addStops(res, 5800, 6200);
     });
     this.locatePosition();
