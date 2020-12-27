@@ -1,4 +1,4 @@
-<ion-list-header>
+<!-- <ion-list-header>
   {{ this._http.markerComponentData[0].stop_headsign }}
   next stop times!!!
 </ion-list-header>
@@ -9,6 +9,44 @@
       <ion-badge color="warning">
         {{ item.arrival_time }}
       </ion-badge>
+      <ion-button (click)="showTrip(item.trip_id)" color="tertiary"
+        >show all trip</ion-button>
     </ion-item>
-  </div></ion-content
->
+  </div>
+  </ion-content> -->
+<mbsc-form [options]="formSettings">
+  <div class="mbsc-btn-group-block">
+    <mbsc-button (click)="closeAll()">Close all cards</mbsc-button>
+  </div>
+</mbsc-form>
+
+<mbsc-card collapsible #run1="mobiscroll" *ngFor="let item of data">
+  <mbsc-card-header class="mbsc-card-header">
+    <div>
+      <mbsc-card-subtitle class="mbsc-bold mbsc-txt-s"
+        >date!!!!</mbsc-card-subtitle
+      >
+      <div class="mbsc-bold">Day!!!!!!</div>
+      <div class="mbsc-grid mbsc-margin mbsc-txt-muted mbsc-bold mbsc-txt-s">
+        <div class="mbsc-row mbsc-no-padding">
+          <div class="mbsc-col">5km</div>
+          <div class="mbsc-col">5'44"/km</div>
+          <div class="mbsc-col">30:45</div>
+        </div>
+      </div>
+    </div>
+  </mbsc-card-header>
+  <mbsc-card-content class="mbsc-no-padding">
+    <div class="mbsc-btn-group-block">
+      <div>
+        <p>🚩</p>
+        <ion-badge color="warning">
+          {{ item.arrival_time }}
+        </ion-badge>
+      </div>
+      <button class="mbsc-btn-primary" (click)="showTrip(item.trip_id)">
+        View trip details
+      </button>
+    </div>
+  </mbsc-card-content>
+</mbsc-card>

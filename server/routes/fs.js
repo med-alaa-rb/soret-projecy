@@ -75,13 +75,42 @@ fsRouter.post("/data/2020/stop_times", (req, res) => {
       stops_time.push(obj);
     }
     var filtred = stops_time.filter((el) => el.stop_id == info);
-    let getNextTimeFromArr = (str) => typeof str == "string" ? parseFloat(str.slice(0, 5).replace(":", "")) : str
+    let getNextTimeFromArr = (str) =>
+      typeof str == "string"
+        ? parseFloat(str.slice(0, 5).replace(":", ""))
+        : str;
     const now = getNextTimeFromArr(new Date().toLocaleTimeString());
     let newFiltred = filtred.filter(
-      (el) => 1200 < getNextTimeFromArr(el.arrival_time) 
+      (el) => 1200 < getNextTimeFromArr(el.arrival_time)
     );
     console.log(filtred.length, newFiltred.length);
     res.send(newFiltred);
+  });
+});
+
+fsRouter.post("/data/2020/tripFetch", (req, res) => {
+  var trips = [];
+  fs.readFile("../2020/trips.txt", (error, data) => {
+    if (error) {
+      throw error;
+    }
+    let myData = data
+      .toString()
+      .split("\n")
+      .map((el) => [el][0].split(","));
+    for (var i = 1; i < myData.length; i++) {
+      var obj = {};
+      for (var j = 0; j < myData[i].length; j++) {
+        obj[myData[0][j]] =
+          myData[i][j].match(/^[0-9, .]+$/) != null
+            ? JSON.parse(myData[i][j])
+            : myData[i][j];
+      }
+      trips.push(obj);
+    }
+    var info = req.body.id;
+    var trip = trips.filter((element) => element.trip_id == info);
+    res.send(trip);
   });
 });
 

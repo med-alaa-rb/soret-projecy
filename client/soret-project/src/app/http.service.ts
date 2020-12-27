@@ -21,4 +21,7 @@ export class HttpService {
   filterStops_times(obj) {
     return this.http.post(this.ROOT_URL + "/data/2020/stop_times", obj);
   }
+  fetchTrip(obj) {
+    return this.http.post(this.ROOT_URL + "/data/2020/tripFetch", obj);
+  }
 }

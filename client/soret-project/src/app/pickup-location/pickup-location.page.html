@@ -4,26 +4,22 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Soret-project</ion-title>
+    <ion-chip>
+      <ion-avatar>
+        <img src="assets/icon/custom-marker-icon.png" />
+      </ion-avatar>
+      <ion-label>where i am</ion-label>
+    </ion-chip>
   </ion-toolbar>
 </ion-header>
 <ion-content>
   <div id="mapId" style="height: 400px"></div>
-  <!-- <ion-item style="cursor: pointer" (click)="locatePosition()">
-    <ion-button fill="clear">
-      <ion-icon slot="start" name="map"></ion-icon>
-      Locate Position
-    </ion-button>
-  </ion-item>
-  <ion-item>
-    <ion-icon slot="start" name="locate"></ion-icon>
-    <ion-label position="stacked">Address</ion-label>
-    <ion-textarea
-      [(ngModel)]="address"
-      type="text"
-      style="margin-top: 10px"
-    ></ion-textarea>
-  </ion-item>
-  <ion-button shape="round" expand="block" (click)="confirmPickupLocation()"
-    >Confirm Pickup Location</ion-button
-  > -->
+  <ion-content>
+    <ion-item>
+      <ion-label>Destination</ion-label>
+    </ion-item>
+  </ion-content>
+  <ion-footer>
+    <ion-input [(ngModel)]="Destination" mbsc-date></ion-input>
+  </ion-footer>
 </ion-content>
