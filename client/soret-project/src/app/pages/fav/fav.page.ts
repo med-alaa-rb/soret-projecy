@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { Router, NavigationExtras } from "@angular/router";
+import { Router } from "@angular/router";
 import * as L from "leaflet";
 import {
   NativeGeocoder,
@@ -32,13 +32,13 @@ export class FavPage {
   async ionViewDidEnter() {
     await this.loadMap();
     this._http.getStops().subscribe((res) => {
-     res ? this.addStops(res, 0) : res
+      res ? this.addStops(res, 0) : res;
     });
   }
 
   loadMap() {
     if (this.myMap) {
-      this.myMap ;
+      this.myMap;
     } else {
       this.myMap = new L.Map("mapId1");
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {

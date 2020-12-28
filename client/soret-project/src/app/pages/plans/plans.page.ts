@@ -22,10 +22,8 @@ export class PlansPage {
 
   async ionViewDidEnter() {
     await this.loadMap();
-    console.log(this.plansMap);
-    console.log(this._http.shapeId);
-    var obj = { id: this._http.shapeId };
-    await this._http.getShapes(obj).subscribe((res) => {
+    var id = this._http.shapeId;
+    await this._http.getShapes(id).subscribe((res) => {
       res ? this.addStops(res, 0) : this.router.navigateByUrl("fav");
       console.log(res);
     });
@@ -36,7 +34,7 @@ export class PlansPage {
       await this.plansMap.remove();
       this.loadMap();
     } else {
-      this.plansMap = await new L.Map("mapId2").setView([17.385, 78.4867], 13);
+      this.plansMap = await new L.Map("mapId2").setView([34, 9], 13);
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution:
           'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
@@ -50,8 +48,7 @@ export class PlansPage {
       {
         draggable: false,
       }
-    )
-    .addTo(this.plansMap);
+    ).addTo(this.plansMap);
     if (!arr[i++].shape_pt_lat) {
       return;
     } else {

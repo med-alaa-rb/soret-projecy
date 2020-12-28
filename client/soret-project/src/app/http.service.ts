@@ -13,8 +13,8 @@ export class HttpService {
   ROOT_URL = "http://localhost:3000";
 
   //get shapes file
-  getShapes(obj) {
-    return this.http.post(this.ROOT_URL + "/data/2020/shapes", obj);
+  getShapes(id) {
+    return this.http.get(this.ROOT_URL + `/data/2020/shapes/${id}`);
   }
 
   getStops() {

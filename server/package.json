@@ -20,6 +20,7 @@
     "global": "^4.4.0",
     "leaflet-headless": "^0.2.6",
     "leaflet-map": "^0.2.1",
+    "node-fetch": "^2.6.1",
     "nodemon": "^2.0.6"
   }
 }
