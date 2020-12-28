@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { PickupLocationPageRoutingModule } from './pickup-location-routing.module';
+import { HomePageRoutingModule } from './home-routing.module';
 
-import { PickupLocationPage } from './pickup-location.page';
+import { HomePage } from './home.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PickupLocationPageRoutingModule
+    HomePageRoutingModule
   ],
-  declarations: [PickupLocationPage]
+  declarations: [HomePage]
 })
-export class PickupLocationPageModule {}
+export class HomePageModule {}

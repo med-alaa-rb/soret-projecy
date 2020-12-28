@@ -10,17 +10,21 @@ const routes: Routes = [
   {
     path: "home",
     loadChildren: () =>
-      import("./pickup-location/pickup-location.module").then(
-        (m) => m.PickupLocationPageModule
-      ),
+      import("./pages/home/home.module").then((m) => m.HomePageModule),
   },
   {
-    path: 'plans',
-    loadChildren: () => import('./pages/plans/plans.module').then( m => m.PlansPageModule)
+    path: "plans",
+    loadChildren: () =>
+      import("./pages/plans/plans.module").then((m) => m.PlansPageModule),
   },
   {
-    path: 'fav',
-    loadChildren: () => import('./pages/fav/fav.module').then( m => m.FavPageModule)
+    path: "fav",
+    loadChildren: () =>
+      import("./pages/fav/fav.module").then((m) => m.FavPageModule),
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
   },
 ];
 
