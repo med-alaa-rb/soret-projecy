@@ -1,15 +1,20 @@
-import { Component, ViewChild, OnInit, AfterViewInit } from "@angular/core";
+import { Component, ViewChild, OnInit } from "@angular/core";
 import { HttpService } from "../../http.service";
 import { MbscFormOptions } from "@mobiscroll/angular";
 import { Router } from "@angular/router";
+import { PopoverController } from "@ionic/angular";
 
 @Component({
   selector: "app-marker-pop",
   templateUrl: "./marker-pop.component.html",
   styleUrls: ["./marker-pop.component.scss"],
 })
-export class MarkerPopComponent implements OnInit, AfterViewInit {
-  constructor(private _http: HttpService, private router: Router) {}
+export class MarkerPopComponent implements OnInit {
+  constructor(
+    private _http: HttpService,
+    private router: Router,
+    public popoverController: PopoverController
+  ) {}
 
   tripInfo: any;
   direction: any = "";
@@ -24,7 +29,6 @@ export class MarkerPopComponent implements OnInit, AfterViewInit {
     this.data = this._http.markerComponentData;
   }
 
-  ngAfterViewInit() {}
 
   showTrip(id) {
     var obj = { id: id };
@@ -50,5 +54,6 @@ export class MarkerPopComponent implements OnInit, AfterViewInit {
   showAlltrip(id) {
     this._http.shapeId = id;
     this.router.navigateByUrl("/plans");
+    this.popoverController.dismiss()
   }
 }

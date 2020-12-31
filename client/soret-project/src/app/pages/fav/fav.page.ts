@@ -41,17 +41,20 @@ export class FavPage {
       this.myMap;
     } else {
       this.myMap = new L.Map("mapId1");
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution:
-          'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-      }).addTo(this.myMap);
+      L.tileLayer(
+        "https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=64a154b4ff5b439b9f0329ff92860ff3",
+        {
+          attribution:
+            'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+        }
+      ).addTo(this.myMap);
       this.myMap
         .locate({ setView: true, maxZoom: 16 })
         .on("locationfound", (e: any) => {
           this.newMarker = L.marker([e.latitude, e.longitude], {
             draggable: true,
           }).addTo(this.myMap);
-          this.myMap.setView([e.latitude, e.longitude], 13);
+          this.myMap.setView([e.latitude, e.longitude], 8);
           this.newMarker.bindPopup("You are located here!").openPopup();
           // this.getAddress(e.latitude, e.longitude);
           // this.newMarker.on("dragend", () => {

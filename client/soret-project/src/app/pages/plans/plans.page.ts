@@ -13,6 +13,7 @@ export class PlansPage {
   layerName: any;
   plansMap: any;
   newMarker: any;
+  myIcon: any;
 
   constructor(
     public geocoder: NativeGeocoder,
@@ -21,34 +22,46 @@ export class PlansPage {
   ) {}
 
   async ionViewDidEnter() {
-    await this.loadMap();
+    if (this.plansMap) {
+      this.plansMap.unsubscribe();
+    }
+    this.loadMap();
     var id = this._http.shapeId;
     await this._http.getShapes(id).subscribe((res) => {
       res ? this.addStops(res, 0) : this.router.navigateByUrl("fav");
-      console.log(res);
     });
   }
 
   async loadMap() {
-    if (this.plansMap) {
-      await this.plansMap.remove();
-      this.loadMap();
-    } else {
-      this.plansMap = await new L.Map("mapId2").setView([34, 9], 13);
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    this.plansMap = await new L.Map("mapId2").setView([35.5, 10], 7.6);
+    console.log(this.plansMap);
+    L.tileLayer(
+      "https://tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey=64a154b4ff5b439b9f0329ff92860ff3",
+      {
         attribution:
           'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-      }).addTo(this.plansMap);
-    }
+        maxZoom: 9,
+        minZoom: 9,
+      }
+    ).addTo(this.plansMap);
+    this.myIcon = L.icon;
+    this.myIcon.iconUrl = "../../../assets/icon/custom-marker-icon.png";
+    this.myIcon.iconSize = [15, 15];
   }
 
   async addStops(arr, i) {
-    this.layerName = await L.marker(
-      [arr[i].shape_pt_lat, arr[i].shape_pt_lon],
-      {
-        draggable: false,
-      }
-    ).addTo(this.plansMap);
+    !arr
+      ? this.loadMap()
+      : (this.layerName = await L.marker(
+          [arr[i].shape_pt_lat, arr[i].shape_pt_lon],
+          {
+            icon: L.icon({
+              iconUrl: "../../../assets/icon/custom-marker-icon.png",
+              iconSize: [11, 11],
+            }),
+            draggable: false,
+          }
+        ).addTo(this.plansMap));
     if (!arr[i++].shape_pt_lat) {
       return;
     } else {
