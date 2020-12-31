@@ -13,4 +13,9 @@ export class SearchDestinationComponent implements OnInit {
 
   ngOnInit() {}
 
+
+  search(val){
+    console.log(val)
+  }
+
 }

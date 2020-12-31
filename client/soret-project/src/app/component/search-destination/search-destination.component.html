@@ -1,16 +1,22 @@
 <ion-content [fullscreen]="true">
   <ion-searchbar
+    #searchVal
     showcancelbutton=""
-    (ionInput)="filterList($event)"
-  ></ion-searchbar>
+    aria-autocomplete=""
+    (change) = search(searchVal.value)
+    ></ion-searchbar>
+    
+    <ion-list lines="none">
+      <ion-item >
+        <!-- *ngFor="let foodItem of foodList" -->
+        <ion-label class="ion-text-wrap">
+          <ion-text color="primary">
+          </ion-text>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
 
-  <ion-list lines="none">
-    <ion-item >
-      <!-- *ngFor="let foodItem of foodList" -->
-    <ion-label class="ion-text-wrap">
-        <ion-text color="primary">
-        </ion-text>
-      </ion-label>
-    </ion-item>
-  </ion-list>
-</ion-content>
+
+
+  <!-- (ionInput)="filterList($event)" -->

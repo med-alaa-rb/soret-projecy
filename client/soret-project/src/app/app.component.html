@@ -1,12 +1,17 @@
 <ion-app>
-  <ion-menu side="start" menuId="first" contentId="content1">
+  <ion-menu
+    side="start"
+    menuId="first"
+    contentId="content1"
+    style="background-color: tomato;"
+  >
     <ion-header>
       <ion-toolbar>
         <ion-title>Welcome</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <ion-list *ngFor="let pages of navigate">
+      <ion-list *ngFor="let pages of navigate" style="list-style: none;">
         <ion-menu-toggle auto-hide="true">
           <ion-item [routerLink]="pages.url" routerDirection="forward">
             <ion-icon [name]="pages.icon" slot="start"></ion-icon>
