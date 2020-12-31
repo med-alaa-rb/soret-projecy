@@ -4,10 +4,10 @@ const fs = require("fs");
 let shapes = [];
 let stops = [];
 let stops_time = [];
+let fixShp = (x) => x.slice(0, x.indexOf("_"));
 
 fsRouter.get("/data/2020/shapes/:id", (req, res) => {
   var info = req.params.id;
-  console.log(info);
   shapes = [];
   fs.readFile("../2020/shapes.txt", (error, data) => {
     if (error) {
@@ -31,18 +31,18 @@ fsRouter.get("/data/2020/shapes/:id", (req, res) => {
     var shp = [];
     for (var i = 0; i < shapes.length - 1; i++) {
       var id = shapes[i].shape_id;
-      if (shp.includes(id) === false) {
-        shp.push(id);
-        myObj[shapes[i].shape_id] = Array(0);
+      if (shp.includes(fixShp(id)) === false) {
+        shp.push(fixShp(id));
+        myObj[fixShp(shapes[i].shape_id)] = Array(0);
       }
     }
     for (var i = 0; i < shp.length; i++) {
       myObj[shp[i]] = shapes.filter(
-        (el) => el.shape_id == shp[i] && el.shape_pt_sequence % 2 === 0
+        (el) => fixShp(el.shape_id) == shp[i] && el.shape_pt_sequence % 2 === 0
       );
     }
-    console.log(info);
-    res.send(myObj[info]);
+    console.log(myObj[fixShp(info)]);
+    res.send(myObj[fixShp(info)]);
   });
 });
 

@@ -57,7 +57,7 @@ export class PlansPage {
           {
             icon: L.icon({
               iconUrl: "../../../assets/icon/custom-marker-icon.png",
-              iconSize: [11, 11],
+              iconSize: [9, 9],
             }),
             draggable: false,
           }
