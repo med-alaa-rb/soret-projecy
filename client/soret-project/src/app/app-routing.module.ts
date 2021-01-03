@@ -26,6 +26,10 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
   },
+  {
+    path: 'search-map',
+    loadChildren: () => import('./pages/search-map/search-map.module').then( m => m.SearchMapPageModule)
+  },
 ];
 
 @NgModule({

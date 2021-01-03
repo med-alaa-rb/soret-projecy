@@ -41,7 +41,6 @@ fsRouter.get("/data/2020/shapes/:id", (req, res) => {
         (el) => fixShp(el.shape_id) == shp[i] && el.shape_pt_sequence % 2 === 0
       );
     }
-    console.log(myObj[fixShp(info)]);
     res.send(myObj[fixShp(info)]);
   });
 });

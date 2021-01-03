@@ -1,0 +1,11 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-icon name="arrow-back-circle-outline" (click) = "back()" ></ion-icon>
+    <ion-title>searchMap</ion-title>
+    <ion-searchbar #searchVal (ionChange) = "search(searchVal.value)"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="mapId3" style="height: 400px"></div>
+</ion-content>

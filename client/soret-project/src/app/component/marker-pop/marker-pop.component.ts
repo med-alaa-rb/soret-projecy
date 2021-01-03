@@ -27,12 +27,14 @@ export class MarkerPopComponent implements OnInit {
 
   ngOnInit() {
     this.data = this._http.markerComponentData;
+    console.log(this.data)
   }
 
 
   showTrip(id) {
     var obj = { id: id };
     this._http.fetchTrip(obj).subscribe((res) => {
+      console.log(res)
       this.tripInfo = res[0];
       this.trip = this.tripInfo.trip_headsign;
       this.shape = this.tripInfo.shape_id;
@@ -52,6 +54,7 @@ export class MarkerPopComponent implements OnInit {
   }
 
   showAlltrip(id) {
+    console.log(id)
     this._http.shapeId = id;
     this.router.navigateByUrl("/plans");
     this.popoverController.dismiss()

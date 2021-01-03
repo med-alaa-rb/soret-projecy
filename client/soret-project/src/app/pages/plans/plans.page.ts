@@ -13,7 +13,6 @@ export class PlansPage {
   layerName: any;
   plansMap: any;
   newMarker: any;
-  myIcon: any;
 
   constructor(
     public geocoder: NativeGeocoder,
@@ -28,13 +27,13 @@ export class PlansPage {
     this.loadMap();
     var id = this._http.shapeId;
     await this._http.getShapes(id).subscribe((res) => {
+      console.log(res[0])
       res ? this.addStops(res, 0) : this.router.navigateByUrl("fav");
     });
   }
 
   async loadMap() {
     this.plansMap = await new L.Map("mapId2").setView([35.5, 10], 7.6);
-    console.log(this.plansMap);
     L.tileLayer(
       "https://tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey=64a154b4ff5b439b9f0329ff92860ff3",
       {
@@ -44,9 +43,6 @@ export class PlansPage {
         minZoom: 9,
       }
     ).addTo(this.plansMap);
-    this.myIcon = L.icon;
-    this.myIcon.iconUrl = "../../../assets/icon/custom-marker-icon.png";
-    this.myIcon.iconSize = [15, 15];
   }
 
   async addStops(arr, i) {

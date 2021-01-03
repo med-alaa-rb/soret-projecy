@@ -27,4 +27,7 @@ export class HttpService {
   fetchTrip(obj) {
     return this.http.post(this.ROOT_URL + "/data/2020/tripFetch", obj);
   }
+  fetchFromCitiesApi(id) {
+    return this.http.get(this.ROOT_URL + `/api/externe/cities/${id}`);
+  }
 }
