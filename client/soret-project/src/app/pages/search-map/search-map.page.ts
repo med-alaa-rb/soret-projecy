@@ -49,7 +49,7 @@ export class SearchMapPage {
       ? this.loadMap([35.5, 10])
       : await this._http.fetchFromCitiesApi(x).subscribe((res) => {
           console.log(res);
-          res == []
+          res
             ? this.loadMap([35.5, 10])
             : this.loadMap([res[0].lat, res[0].lng]);
           this.addStops(res, 0);
@@ -67,9 +67,11 @@ export class SearchMapPage {
         }),
         draggable: false,
       })
-        .setPopupContent(`<h3>${arr[i].name}</h3>`)
+        .bindPopup(
+          this.pop(arr, i)
+        )
         .openPopup()
-        .on("click", () => this.popoverData(arr[i]))
+        // .on("click", () => this.popoverData(arr[i]))
         .addTo(this.myMap);
       if (arr[i++]) {
         this.addStops(arr, i++);
@@ -79,12 +81,12 @@ export class SearchMapPage {
     }
   }
 
-  async popoverData(obj) {
-    console.log(obj);
-    return await this.popoverController.create({
-      component: SearchDetailComponent,
-      cssClass: "my-custom-class",
-      translucent: true,
-    });
+  pop(arr, i) {
+    return `<div><h5>${arr[i].name}</h5> 
+    <ion-button (click)=${"this.searchDestination(arr[i])"}>how to go</ion-button> </div>`
+  }
+
+  searchDestination(el) {
+    console.log(el);
   }
 }
