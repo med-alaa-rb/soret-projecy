@@ -6,7 +6,7 @@ import { HttpClient } from "@angular/common/http";
 })
 export class HttpService {
   shapeId: any;
-
+  markerSearch: any;
   markerComponentData: any = [];
 
   constructor(private http: HttpClient) {}

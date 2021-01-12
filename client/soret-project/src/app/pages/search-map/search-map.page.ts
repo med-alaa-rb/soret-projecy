@@ -6,8 +6,8 @@ import {
   NativeGeocoderOptions,
 } from "@ionic-native/native-geocoder/ngx";
 import { HttpService } from "../../http.service";
-import { MarkerPopComponent } from "../../component/marker-pop/marker-pop.component";
 import { PopoverController } from "@ionic/angular";
+import { SearchDetailComponent } from "../../component/search-detail/search-detail.component";
 
 @Component({
   selector: "app-search-map",
@@ -15,7 +15,6 @@ import { PopoverController } from "@ionic/angular";
   styleUrls: ["./search-map.page.scss"],
 })
 export class SearchMapPage {
-  layerName: any;
   myMap: any;
 
   constructor(
@@ -26,11 +25,11 @@ export class SearchMapPage {
   ) {}
 
   async ionViewDidEnter() {
-    await this.loadMap();
+    await this.loadMap([35.5, 10]);
   }
 
-  loadMap() {
-    this.myMap = new L.Map("mapId3").setView([35.5, 10], 7.6);
+  loadMap(arr) {
+    this.myMap = new L.Map("mapId3").setView(arr, 7.6);
     L.tileLayer(
       "https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=64a154b4ff5b439b9f0329ff92860ff3",
       {
@@ -44,29 +43,48 @@ export class SearchMapPage {
     this.router.navigateByUrl("/home");
   }
 
-  search(x) {
-    this._http.fetchFromCitiesApi(x).subscribe((res) => {
-      this.ionViewDidEnter();
-      this.addStops(res, 0);
-    });
+  async search(x) {
+    this.myMap.remove();
+    !x
+      ? this.loadMap([35.5, 10])
+      : await this._http.fetchFromCitiesApi(x).subscribe((res) => {
+          console.log(res);
+          res == []
+            ? this.loadMap([35.5, 10])
+            : this.loadMap([res[0].lat, res[0].lng]);
+          this.addStops(res, 0);
+        });
   }
 
   async addStops(arr, i) {
     if (!arr) {
       return;
     } else if (arr[i]) {
-      this.layerName = await L.marker([arr[i].lat, arr[i].lng], {
+      await L.marker([arr[i].lat, arr[i].lng], {
         icon: L.icon({
           iconUrl: "../../../assets/icon/location-marker.png",
           iconSize: [20, 20],
         }),
         draggable: false,
-      }).addTo(this.myMap);
-      if (arr[i++].geonameId) {
+      })
+        .setPopupContent(`<h3>${arr[i].name}</h3>`)
+        .openPopup()
+        .on("click", () => this.popoverData(arr[i]))
+        .addTo(this.myMap);
+      if (arr[i++]) {
         this.addStops(arr, i++);
       } else {
         return;
       }
     }
+  }
+
+  async popoverData(obj) {
+    console.log(obj);
+    return await this.popoverController.create({
+      component: SearchDetailComponent,
+      cssClass: "my-custom-class",
+      translucent: true,
+    });
   }
 }
