@@ -6,6 +6,7 @@ import {
   NativeGeocoderOptions,
 } from "@ionic-native/native-geocoder/ngx";
 import { HttpService } from "../../http.service";
+import { AlertController } from "@ionic/angular";
 import { PopoverController } from "@ionic/angular";
 import { SearchDetailComponent } from "../../component/search-detail/search-detail.component";
 
@@ -16,11 +17,13 @@ import { SearchDetailComponent } from "../../component/search-detail/search-deta
 })
 export class SearchMapPage {
   myMap: any;
+  stopName: any;
 
   constructor(
     private geocoder: NativeGeocoder,
     private router: Router,
     private _http: HttpService,
+    public alertController: AlertController,
     public popoverController: PopoverController
   ) {}
 
@@ -29,7 +32,7 @@ export class SearchMapPage {
   }
 
   loadMap(arr) {
-    this.myMap = new L.Map("mapId3").setView(arr, 7.6);
+    this.myMap = new L.Map("mapId3").setView(arr, 11.6);
     L.tileLayer(
       "https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=64a154b4ff5b439b9f0329ff92860ff3",
       {
@@ -39,19 +42,18 @@ export class SearchMapPage {
     ).addTo(this.myMap);
   }
 
-  back() {
+  async back() {
     this.router.navigateByUrl("/home");
   }
 
   async search(x) {
-    this.myMap.remove();
+    await this.myMap.remove();
     !x
       ? this.loadMap([35.5, 10])
-      : await this._http.fetchFromCitiesApi(x).subscribe((res) => {
-          console.log(res);
-          res
-            ? this.loadMap([35.5, 10])
-            : this.loadMap([res[0].lat, res[0].lng]);
+      : this._http.fetchFromCitiesApi(x).subscribe((res) => {
+          res != []
+            ? this.loadMap([res[0].stop_lat, res[0].stop_lon])
+            : this.loadMap([35.5, 10]);
           this.addStops(res, 0);
         });
   }
@@ -60,18 +62,16 @@ export class SearchMapPage {
     if (!arr) {
       return;
     } else if (arr[i]) {
-      await L.marker([arr[i].lat, arr[i].lng], {
+      await L.marker([arr[i].stop_lat, arr[i].stop_lon], {
         icon: L.icon({
           iconUrl: "../../../assets/icon/location-marker.png",
-          iconSize: [20, 20],
+          iconSize: [40, 40],
         }),
         draggable: false,
       })
-        .bindPopup(
-          this.pop(arr, i)
-        )
         .openPopup()
-        // .on("click", () => this.popoverData(arr[i]))
+        .bindPopup(`<h5>${arr[i].stop_name}</h5>`)
+        .on("click", () => this.presentAlertMultipleButtons(arr[i]))
         .addTo(this.myMap);
       if (arr[i++]) {
         this.addStops(arr, i++);
@@ -81,12 +81,27 @@ export class SearchMapPage {
     }
   }
 
-  pop(arr, i) {
-    return `<div><h5>${arr[i].name}</h5> 
-    <ion-button (click)=${"this.searchDestination(arr[i])"}>how to go</ion-button> </div>`
+  async presentAlertMultipleButtons(el) {
+    this.stopName = el;
+    console.log(this.stopName)
+    const alert = await this.alertController.create({
+      cssClass: "my-custom-class",
+      header: this.stopName.stop_name,
+      message: "how to reach ?",
+      buttons: [
+        "Cancel",
+        { text: "Open Modal", handler: () => this.presentPopover() },
+      ],
+    });
+    await alert.present();
   }
 
-  searchDestination(el) {
-    console.log(el);
+  async presentPopover() {
+    const popover = await this.popoverController.create({
+      component: SearchDetailComponent,
+      cssClass: "pop",
+      translucent: true,
+    });
+    return await popover.present();
   }
 }

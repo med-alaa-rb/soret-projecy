@@ -29,7 +29,11 @@ const routes: Routes = [
   {
     path: 'search-map',
     loadChildren: () => import('./pages/search-map/search-map.module').then( m => m.SearchMapPageModule)
+  },  {
+    path: 'search-with-marker',
+    loadChildren: () => import('./pages/search-with-marker/search-with-marker.module').then( m => m.SearchWithMarkerPageModule)
   },
+
 ];
 
 @NgModule({

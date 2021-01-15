@@ -14,4 +14,7 @@ export class HomePage implements OnInit {
   goToSearch() {
     this.router.navigateByUrl("search-map");
   }
+  useMarker() {
+    this.router.navigateByUrl("search-with-marker");
+  }
 }

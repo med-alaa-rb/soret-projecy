@@ -1,8 +1,18 @@
-.popover-content {
-    background: #222;
-  }
+/* DOES NOT WORK - not specific enough */
+.alert-wrapper {
+  background: #e5e5e5;
+}
 
-  .my-custom-class .popover-content {
-    background: transparent
-    ;
-  }
+/* Works - pass "my-custom-class" in cssClass to increase specificity */
+.my-custom-class .alert-wrapper {
+  background: #e5e5e5;
+}
+
+.popover-content {
+  background: #222;
+}
+
+/* Works - pass "my-custom-class" in cssClass to increase specificity */
+.pop .popover-content {
+  background: #222;
+}

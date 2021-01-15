@@ -2,7 +2,7 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var cors = require("cors");
-var fetchInfoApi = require("./routes/cityApi");
+var searchRouter = require("./routes/searchRout").searchRouter;
 var fsRouter = require("./routes/fs").fsRouter;
 
 app.use(cors());
@@ -11,7 +11,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use("/", fetchInfoApi);
+app.use("/", searchRouter);
 app.use("/", fsRouter);
 
 var port = process.env.PORT || 3000;
