@@ -69,9 +69,9 @@ export class SearchMapPage {
         }),
         draggable: false,
       })
-        .openPopup()
-        .bindPopup(`<h5>${arr[i].stop_name}</h5>`)
         .on("click", () => this.presentAlertMultipleButtons(arr[i]))
+        .bindPopup(`<h5>${arr[i].stop_name}</h5>`)
+        .openPopup()
         .addTo(this.myMap);
       if (arr[i++]) {
         this.addStops(arr, i++);
@@ -82,8 +82,8 @@ export class SearchMapPage {
   }
 
   async presentAlertMultipleButtons(el) {
+    console.log(el);
     this.stopName = el;
-    console.log(this.stopName)
     const alert = await this.alertController.create({
       cssClass: "my-custom-class",
       header: this.stopName.stop_name,
