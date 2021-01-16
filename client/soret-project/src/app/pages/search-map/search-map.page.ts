@@ -97,6 +97,9 @@ export class SearchMapPage {
   }
 
   async presentPopover() {
+    this._http.searchTripDestination(this.stopName.stop_id).subscribe((res)=> {
+      console.log(res)
+    })
     const popover = await this.popoverController.create({
       component: SearchDetailComponent,
       cssClass: "pop",

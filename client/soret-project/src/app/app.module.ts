@@ -1,5 +1,5 @@
-import { FormsModule } from '@angular/forms';
-import { MbscModule } from '@mobiscroll/angular';
+import { FormsModule } from "@angular/forms";
+import { MbscModule } from "@mobiscroll/angular";
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouteReuseStrategy } from "@angular/router";
@@ -14,19 +14,21 @@ import { AppRoutingModule } from "./app-routing.module";
 import { NativeGeocoder } from "@ionic-native/native-geocoder/ngx";
 import { HttpClientModule } from "@angular/common/http";
 import { MarkerPopComponent } from "./component/marker-pop/marker-pop.component";
+import { Geolocation } from "@ionic-native/geolocation/ngx";
 
 @NgModule({
   declarations: [AppComponent, MarkerPopComponent],
   entryComponents: [],
-  imports: [ 
-    FormsModule,  
-    MbscModule, 
+  imports: [
+    FormsModule,
+    MbscModule,
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
   ],
   providers: [
+    Geolocation,
     StatusBar,
     SplashScreen,
     NativeGeocoder,

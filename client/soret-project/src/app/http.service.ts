@@ -5,6 +5,7 @@ import { HttpClient } from "@angular/common/http";
   providedIn: "root",
 })
 export class HttpService {
+  userLocation: any;
   shapeId: any;
   markerSearch: any;
   markerComponentData: any = [];
@@ -24,10 +25,20 @@ export class HttpService {
   filterStops_times(obj) {
     return this.http.post(this.ROOT_URL + "/data/2020/stop_times", obj);
   }
+
   fetchTrip(obj) {
     return this.http.post(this.ROOT_URL + "/data/2020/tripFetch", obj);
   }
+
   fetchFromCitiesApi(id) {
     return this.http.get(this.ROOT_URL + `/data/2020/searchStops/${id}`);
+  }
+
+  searchTripDestination(id) {
+    return this.http.get(this.ROOT_URL + `/data/2020/searchTripDes/${id}`)
+  }
+  
+  postUserLocation(obj) {
+    return this.http.post(this.ROOT_URL + "/data/2020/postuserLocation", obj);
   }
 }
