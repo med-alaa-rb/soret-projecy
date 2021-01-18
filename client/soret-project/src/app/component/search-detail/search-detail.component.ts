@@ -11,7 +11,7 @@ export class SearchDetailComponent implements OnInit {
 
   ngOnInit() {
     this._http.postUserLocation(this._http.userLocation).subscribe((res) => {
-      console.log(res);
+     res? console.log(res) : res
     });
   }
 }

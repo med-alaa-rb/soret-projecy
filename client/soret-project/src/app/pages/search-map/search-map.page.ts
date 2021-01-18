@@ -32,6 +32,7 @@ export class SearchMapPage {
   }
 
   loadMap(arr) {
+    this.myMap ? this.myMap.remove() : this.myMap;
     this.myMap = new L.Map("mapId3").setView(arr, 11.6);
     L.tileLayer(
       "https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=64a154b4ff5b439b9f0329ff92860ff3",
@@ -47,14 +48,14 @@ export class SearchMapPage {
   }
 
   async search(x) {
-    await this.myMap.remove();
     !x
       ? this.loadMap([35.5, 10])
       : this._http.fetchFromCitiesApi(x).subscribe((res) => {
-          res != []
-            ? this.loadMap([res[0].stop_lat, res[0].stop_lon])
-            : this.loadMap([35.5, 10]);
-          this.addStops(res, 0);
+          console.log(res);
+          if (res != []) {
+            this.loadMap([res[0].stop_lat, res[0].stop_lon]);
+            this.addStops(res, 0);
+          }
         });
   }
 
@@ -97,9 +98,11 @@ export class SearchMapPage {
   }
 
   async presentPopover() {
-    this._http.searchTripDestination(this.stopName.stop_id).subscribe((res)=> {
-      console.log(res)
-    })
+    await this._http
+      .searchTripDestination(this.stopName.stop_id)
+      .subscribe((res) => {
+        console.log(res);
+      });
     const popover = await this.popoverController.create({
       component: SearchDetailComponent,
       cssClass: "pop",
